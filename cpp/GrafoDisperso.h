@@ -8,10 +8,9 @@
 
 class GrafoDisperso : public GrafoBase {
 private:
-    // CSR Format
-    std::vector<int> values;      // Edge weights (assumed 1 for unweighted)
-    std::vector<int> col_indices; // Column indices
-    std::vector<int> row_ptr;     // Row pointers
+    std::vector<int> values;     
+    std::vector<int> col_indices; 
+    std::vector<int> row_ptr;     
     int num_nodos;
     int num_aristas;
 
@@ -25,7 +24,6 @@ public:
     int obtenerNumNodos() override;
     int obtenerNumAristas() override;
     
-    // Helper to get neighbors for Cython/Visualization if needed
     std::vector<int> getVecinos(int nodo);
 };
 
