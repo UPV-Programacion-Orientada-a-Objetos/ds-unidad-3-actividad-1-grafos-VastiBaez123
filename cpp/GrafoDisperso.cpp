@@ -18,17 +18,7 @@ void GrafoDisperso::cargarDatos(const std::string& archivo) {
         return;
     }
 
-    // First pass: Determine number of nodes and edges, and build adjacency list temporarily
-    // Note: For truly massive graphs where adjacency list doesn't fit, we'd need a more complex 2-pass approach
-    // or direct CSR construction if nodes are contiguous.
-    // Assuming nodes are integers. They might not be contiguous 0..N-1. 
-    // We will map them to 0..N-1 for internal storage if needed, or assume they are somewhat dense.
-    // For SNAP datasets, nodes are usually integers. Let's assume we handle up to max_node_id.
-    
-    // Using a vector of vectors for temporary construction is easier, then flatten to CSR.
-    // If memory is tight, we would count degrees first, allocate CSR, then fill.
-    // Let's try the "vector of vectors" approach first as it's easier to implement and usually fine for < 1M nodes on 16GB RAM.
-    // However, the requirement is "Implementar manualmente... CSR".
+  
     
     std::vector<std::vector<int>> adj;
     int max_node = -1;
@@ -43,13 +33,8 @@ void GrafoDisperso::cargarDatos(const std::string& archivo) {
             if (adj.size() <= (size_t)max_node) {
                 adj.resize(max_node + 1);
             }
-            // Assuming undirected graph for "robustness analysis" usually, or directed?
-            // SNAP web-Google is directed. The prompt mentions "Diferencia entre grafos dirigidos y no dirigidos".
-            // Let's treat as Directed for now as per edge list standard, or Undirected if we want to ensure connectivity.
-            // Let's stick to Directed as read from file, but maybe add reverse edge if needed. 
-            // For now: Directed.
+
             adj[u].push_back(v);
-            // adj[v].push_back(u); // Uncomment for undirected
             num_aristas++;
         }
     }
@@ -57,9 +42,8 @@ void GrafoDisperso::cargarDatos(const std::string& archivo) {
 
     num_nodos = adj.size();
 
-    // Convert to CSR
     row_ptr.resize(num_nodos + 1);
-    values.clear(); // Not really using weights, but keeping structure
+    values.clear();
     col_indices.clear();
 
     int current_idx = 0;
