@@ -1,4 +1,3 @@
-# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -20,16 +19,12 @@ wheels/
 .installed.cfg
 *.egg
 
-# Virtual Environment
 venv/
 .venv/
 env/
 
-# IDEs
 .vscode/
 .idea/
 
-# Project specific
 temp_dataset.txt
-# Optional: exclude large datasets if you prefer users to download them separately
-# web-Google.txt
+
